@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -23,8 +24,14 @@ public class PlayerController : MonoBehaviour
     Vector2 currentMouseDelta = Vector2.zero;
     Vector2 currentMouseDeltaVelocity = Vector2.zero;
 
+   
+
     void Start()
     {
+
+
+        playerCamera = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
+
         controller = GetComponent<CharacterController>();
         if (lockCursor)
         {
@@ -38,6 +45,11 @@ public class PlayerController : MonoBehaviour
         
         UpdateMouseLook();
         UpdateMovement();
+
+        if (Input.GetKey(KeyCode.F10))
+            Application.Quit();
+        if (Input.GetKey(KeyCode.F2))
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     void UpdateMouseLook()

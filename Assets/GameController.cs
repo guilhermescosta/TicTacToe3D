@@ -15,10 +15,7 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         actualPlayer = 1;
-        
-
     }
 
     // Update is called once per frame
@@ -27,6 +24,8 @@ public class GameController : MonoBehaviour
        
         
     }
+
+    
 
    public void CheckGame() 
     {

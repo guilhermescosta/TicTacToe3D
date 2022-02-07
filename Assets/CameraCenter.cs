@@ -8,10 +8,22 @@ public class CameraCenter : MonoBehaviour
     public bool onGrid;
     public GameController _gameController;
     public GameObject gridPosition;
+    public GameObject _camera;
     // Start is called before the first frame update
-    void Start()
+    
+    Camera mainCam;
+
+    
+
+    void Awake()
     {
-        
+        mainCam = Camera.main;
+        mainCam = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+    }
+
+    void Start() 
+    {
+       
     }
 
     // Update is called once per frame
