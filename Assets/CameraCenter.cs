@@ -29,7 +29,8 @@ public class CameraCenter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (onGrid && Input.GetMouseButtonDown(0) && gridPosition.tag!="UsedGrid" )
+       /*
+            if (onGrid && Input.GetMouseButtonDown(0) && gridPosition.tag!="UsedGrid" )
         {
             if (_gameController.actualPlayer == 1)
             {
@@ -50,6 +51,8 @@ public class CameraCenter : MonoBehaviour
                 
             }
         }
+
+        */
     }
 
     private void OnTriggerStay(Collider other)

@@ -4,25 +4,60 @@ namespace Mirror.Examples.NetworkRoom
 { 
     public class GameController : NetworkBehaviour
     {
-        public int actualPlayer;    //   x = 1     0 = 2
         
-
-        public int[] gridArray;   //0 a 7   
+        public uint[] actualPlayer;    //
+     
+        public GameObject[] players;    // 
+        
+        public int[] gridArray;   //0 a 8   
 
         public LineRenderer endLine;
+        
+      
+        public uint player1;
+      
+        public uint player2;
+      
+        public uint playerTurn;
 
         // Start is called before the first frame update
         void Start()
         {
-            actualPlayer = 1;
+           
+            actualPlayer = new uint[2];
+            players = new GameObject[2];
+
+            players = GameObject.FindGameObjectsWithTag("Player");
+
+           
+            
+            for (int x = 0; x < players.Length; x++) 
+            {
+               Debug.Log("NETID: "+players[x].GetComponent<PlayerController>().netId);
+                actualPlayer[x] = players[x].GetComponent<PlayerController>().netId;
+            }
+
+            player1 = actualPlayer[0];          
+            player2 = actualPlayer[1];
+
+            playerTurn = player1;
         }
+
 
         public void ChangePlayer()
         {
-            if (actualPlayer == 1)
-                actualPlayer = 2;
+            players = GameObject.FindGameObjectsWithTag("Player");  
+            if (playerTurn==player1)
+            {
+                CheckGame();
+                playerTurn = player2;
+            }
             else
-                actualPlayer = 1;
+            {
+                CheckGame();
+                playerTurn = player1;
+            }
+
         }
 
         // Update is called once per frame
@@ -31,7 +66,7 @@ namespace Mirror.Examples.NetworkRoom
 
 
         }
-
+        
         public void CheckGame()
         {
             // linha X

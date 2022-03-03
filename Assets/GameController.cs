@@ -1,17 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class GameController : MonoBehaviour
+
+public class GameController : NetworkBehaviour
 {
-    public int actualPlayer;    //   x = 1     0 = 2
+
+    public int actualPlayer;    //   1 = O     2 = X
+    
     public Material circleMaterial;
+
     public Material crossMaterial;
 
+   // [SyncVar]
+   // public int pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8,pos9;
+    
     public int[] gridArray;   //0 a 7   
+    
+    
+    public GameObject[] gridPosition;
 
-    public LineRenderer endLine;
+    public LineRenderer endLine;  // utilizado para marcar a linha sobre a posição vencedora. ! Distorce conforme a resolução !
 
+
+    [Command(requiresAuthority = false)]
+    public void CmdUpdateGrid(int player, int grid) 
+    {
+        RpcUpdateGrid(player, grid);
+    }
+
+    [ClientRpc]
+    void RpcUpdateGrid(int player, int grid)
+    {
+        Debug.Log("Jogador "+player + " grid "+ grid);
+
+        if (player == 1)
+        {
+            gridPosition[grid].GetComponent<Renderer>().material = circleMaterial;
+            actualPlayer = 2;
+        }
+        else if (player == 2) 
+        {
+            gridPosition[grid].GetComponent<Renderer>().material = crossMaterial;
+            actualPlayer = 1;
+        }
+        
+    }
+
+  
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +63,6 @@ public class GameController : MonoBehaviour
     }
 
     
-
    public void CheckGame() 
     {
         // linha X
@@ -162,7 +198,7 @@ public class GameController : MonoBehaviour
             Debug.Log("fim de jogo O venceu");
         }
 
-    }
+    }    
 
     void Result() 
     {

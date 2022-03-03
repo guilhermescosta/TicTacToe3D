@@ -21,8 +21,8 @@ namespace Mirror.Examples.NetworkRoom
         public override void OnRoomServerSceneChanged(string sceneName)
         {
             // spawn the initial batch of Rewards
-           // if (sceneName == GameplayScene)
-                //Spawner.InitialSpawn();
+          // if (sceneName == GameplayScene)
+            //    Spawner.InitialSpawn();
         }
 
         /// <summary>

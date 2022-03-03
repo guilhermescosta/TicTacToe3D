@@ -6,12 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Mirror/Examples/Room/Scenes/OfflineScene.unity
-    guid: 9e6f14982412b2545a0911ebaaa46a23
+    path: Assets/Scenes/TicTacToe01.unity
+    guid: a444eca2581235d4590a75101daeb4d1
   - enabled: 1
-    path: Assets/Mirror/Examples/Room/Scenes/OnlineScene.unity
-    guid: d7a6763559b31854586c9e49916273ef
-  - enabled: 1
-    path: Assets/Mirror/Examples/Room/Scenes/RoomScene.unity
-    guid: 48478f4d522f96945b8396f376299d3a
+    path: Assets/Scenes/Football.unity
+    guid: c13b30fdca596c2409758d66295b4cbe
   m_configObjects: {}

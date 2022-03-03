@@ -1,4 +1,7 @@
 using UnityEngine;
+using System;
+using Unity;
+using UnityEngine.UI;
 
 namespace Mirror.Examples.NetworkRoom
 {
@@ -26,27 +29,42 @@ namespace Mirror.Examples.NetworkRoom
         public GameObject rayObject;
         public float rayMaxDistance = 10;
 
-        public NetworkRoomManager _roomManager;
+      //  public NetworkRoomManager _roomManager;
 
         public Material circleMaterial;
         public Material crossMaterial;
 
-        public GameController _gameController;
+      //  public GameController _gameController;
 
-        public int myPlayer;
+        public NetworkIdentity _netId;  //identificador do player na rede
+        
+        [SyncVar]
+        public uint myPlayer;  //player 1 ou 2
+
+        public GameObject crosshair;
+        public GameObject ball;
 
         private void Start()
         {
+            myPlayer = netId;
             playerCamera = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
-            _controller = GameObject.Find("GameControl");
+           // _controller = GameObject.Find("GameControl");
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = true;
 
-            _roomManager = GameObject.Find("NetworkRoomManager").GetComponent<NetworkRoomManager>();
-            _gameController = GameObject.FindWithTag("GameController").GetComponent<GameController>();
+            //   _gameController = GameObject.FindWithTag("GameController").GetComponent<GameController>();
 
-            myPlayer = _roomManager.clientIndex;
+            if (this.CompareTag("Player") && GameObject.Find("Jogador 1")==null)
+            {
+                gameObject.name = "Jogador 1";
+            }
+            else if (this.CompareTag("Player") && GameObject.Find("Jogador 1")) 
+            {
+                gameObject.name = "Jogador 2";
+            } 
+
+
 
         }
 
@@ -95,85 +113,122 @@ namespace Mirror.Examples.NetworkRoom
         }
 
 
-        void Update()
+
+        void PlayerVision()
         {
             RaycastHit hit;
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out hit, rayMaxDistance))
+            if (Physics.Raycast(ray, out hit, 2))
             {
-                Debug.DrawLine(ray.origin, hit.point);
-                if (hit.collider.CompareTag("Grid") && rayObject == null)
-                {
-                    rayObject = hit.collider.gameObject;
-                    hit.collider.GetComponent<MeshRenderer>().material.color = Color.blue;
-                    _inObject = true;
-                }
 
-                if (hit.collider.tag != "Grid")
+                if (hit.collider.CompareTag("Ball") && rayObject == null)
                 {
-                    if (rayObject)
-                    {
-                        rayObject.GetComponent<MeshRenderer>().material.color = Color.white;
-                    }
+                    // ball = hit.collider.gameObject;
+                    rayObject = hit.collider.gameObject;
+                    _inObject = true;
+
+                }
+                if (hit.collider.tag != "Ball")
+                {
                     rayObject = null;
                     _inObject = false;
+                }
 
 
+
+                if (_inObject && hit.collider.CompareTag("Ball"))
+                {
+                    crosshair.GetComponent<Image>().color = Color.red;
+                }
+                else
+                {
+                    crosshair.GetComponent<Image>().color = Color.white;
                 }
 
                 if (Input.GetMouseButtonDown(0) && _inObject == true)
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
-                        hit.collider.tag = "UsedGrid";
+                        hit.rigidbody.AddForce(400 * transform.forward);
                         _inObject = false;
-                        if (_roomManager.clientIndex == 1 && _gameController.actualPlayer==1)
-                        {
-                            hit.collider.GetComponent<Renderer>().material = circleMaterial;
-                            _gameController.ChangePlayer();
-                        }
-
-                        if (_roomManager.clientIndex == 2 && _gameController.actualPlayer == 2)
-                        {
-                            hit.collider.GetComponent<Renderer>().material = crossMaterial;
-                            _gameController.ChangePlayer();
-                        }
-
-
-
                     }
                 }
+
+                /*
+                                 if (Physics.Raycast(ray, out hit, rayMaxDistance))
+                             {
+                                 Debug.DrawLine(ray.origin, hit.point);
+                                 if (hit.collider.CompareTag("Grid") && rayObject == null)
+                                 {
+                                     rayObject = hit.collider.gameObject;
+                                     hit.collider.GetComponent<MeshRenderer>().material.color = Color.blue;
+                                     _inObject = true;
+                                 }
+
+                                 if (hit.collider.tag != "Grid")
+                                 {
+                                     if (rayObject)
+                                     {
+                                         rayObject.GetComponent<MeshRenderer>().material.color = Color.white;
+                                     }
+                                     rayObject = null;
+                                     _inObject = false;
+                                 }
+
+
+
+                                 if (Input.GetMouseButtonDown(0) && _inObject == true)
+                                 {
+                                     if (Input.GetMouseButtonDown(0))
+                                     {
+                                         hit.collider.tag = "UsedGrid";
+                                         _inObject = false;
+
+
+                                         if (myPlayer == 1)
+                                         {
+
+                                              hit.collider.GetComponent<Renderer>().material = circleMaterial;
+                                             //_gameController.gridArray[Convert.ToInt32(hit.collider.name)] = 1;
+                                             //_gameController.ChangePlayer();
+                                         }
+                                         else if (myPlayer == 2)
+                                         {
+
+                                             hit.collider.GetComponent<Renderer>().material = crossMaterial;
+                                             //_gameController.gridArray[Convert.ToInt32(hit.collider.name)] = 1;
+                                             //_gameController.ChangePlayer();
+                                         }
+                                     }
+                                 }
+              }
+              */
+
             }
-               
-                
+        }
+       
+        void ChangeGrid(GameObject grid)
+        {
+            //NetworkServer.Destroy(grid);
+            grid.GetComponent<Renderer>().material = circleMaterial;
+        }
+
+
+
+        void Update()
+        {
+
+            PlayerVision();
            
-        
-
-
-
-        UpdateMouseLook();
+            UpdateMouseLook();
 
             if (!isLocalPlayer || characterController == null || !characterController.enabled)
                 return;
 
             horizontal = Input.GetAxis("Horizontal");
             vertical = Input.GetAxis("Vertical");
-
-            
-            // Q and E cancel each other out, reducing the turn to zero
-            
-            /*
-            if (Input.GetKey(KeyCode.Q))
-                turn = Mathf.MoveTowards(turn, -maxTurnSpeed, turnSensitivity);
-            if (Input.GetKey(KeyCode.E))
-                turn = Mathf.MoveTowards(turn, maxTurnSpeed, turnSensitivity);
-            if (Input.GetKey(KeyCode.Q) && Input.GetKey(KeyCode.E))
-                turn = Mathf.MoveTowards(turn, 0, turnSensitivity);
-            if (!Input.GetKey(KeyCode.Q) && !Input.GetKey(KeyCode.E))
-                turn = Mathf.MoveTowards(turn, 0, turnSensitivity);
-            */
 
             if (isGrounded)
                 isFalling = false;
@@ -210,5 +265,7 @@ namespace Mirror.Examples.NetworkRoom
             isGrounded = characterController.isGrounded;
             velocity = characterController.velocity;
         }
+
+       
     }
 }
