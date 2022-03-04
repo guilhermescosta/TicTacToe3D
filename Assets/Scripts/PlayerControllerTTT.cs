@@ -199,6 +199,7 @@ public class PlayerControllerTTT : NetworkBehaviour
                 if (isLocalPlayer)
                 {
                     _gameController.CmdUpdateGrid(1, Convert.ToInt32(rayObject.name));
+                    _gameController.CmdCheckGame();
                 }
             }
 
@@ -208,6 +209,7 @@ public class PlayerControllerTTT : NetworkBehaviour
                 if (isLocalPlayer)
                 {
                     _gameController.CmdUpdateGrid(2, Convert.ToInt32(rayObject.name));
+                    _gameController.CmdCheckGame();
                 }
             }
             

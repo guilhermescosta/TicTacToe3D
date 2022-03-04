@@ -270,10 +270,7 @@ MonoBehaviour:
   _inObject: 0
   rayObject: {fileID: 0}
   rayMaxDistance: 10
-  circleMaterial: {fileID: 2100000, guid: 4a8e11ccc1c02d342943949f0ac5accd, type: 2}
-  crossMaterial: {fileID: 2100000, guid: 57cb7289c0c3a4c4f969373293e18d73, type: 2}
   _netId: {fileID: 0}
-  myPlayer: 0
   visionTrigger: {fileID: 0}
   _gameController: {fileID: 0}
   _debugtext: {fileID: 371917158647575189}
