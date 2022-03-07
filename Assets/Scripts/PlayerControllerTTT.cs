@@ -168,7 +168,7 @@ public class PlayerControllerTTT : NetworkBehaviour
     private void OnTriggerEnter(Collider other)
     {
        // Debug.Log(other.name);
-        if (other.tag == "Grid") 
+        if (other.tag == "Grid" && _gameController.gameOn==true) 
         {
             _inObject = true;
             other.GetComponent<MeshRenderer>().material.color = Color.blue;
@@ -179,7 +179,7 @@ public class PlayerControllerTTT : NetworkBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Grid")
+        if (other.tag == "Grid" && _gameController.gameOn==true)
         {
             _inObject = false;
             other.GetComponent<MeshRenderer>().material.color = Color.white;

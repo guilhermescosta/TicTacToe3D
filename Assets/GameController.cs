@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class GameController : NetworkBehaviour
 {
+    public bool gameOn;   // indica se o jogo ainda está ativo
 
     public int actualPlayer;    //   1 = O     2 = X
     
@@ -37,13 +38,15 @@ public class GameController : NetworkBehaviour
     [ClientRpc]
     void RpcUpdateGrid(int player, int grid)
     {
-        Debug.Log("Jogador "+player + " grid "+ grid);
+       // Debug.Log("Jogador "+player + " grid "+ grid);
 
         if (player == 1)
         {
+          //  circleMaterial.color = Color.red;
             gridPosition[grid].GetComponent<Renderer>().material = circleMaterial;
             gridArray[grid] = 1;
             actualPlayer = 2;
+          
         }
         else if (player == 2) 
         {
@@ -61,6 +64,7 @@ public class GameController : NetworkBehaviour
     void Start()
     {
         actualPlayer = 1;
+        gameOn = true;
     }
 
     // Update is called once per frame
@@ -79,154 +83,243 @@ public class GameController : NetworkBehaviour
     [ClientRpc]
     public void RpcCheckGame() 
     {
-        // linha X
+        // linha o
         if (gridArray[0] == 1 && gridArray[1] == 1 && gridArray[2] == 1)
         {
+            gameOn = false;
+            gridPosition[0].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[1].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[2].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+          
             victoryCanvas.SetActive(true);
             victoryText.text = "Fim de Jogo\n  Jogador 1 é o Vencedor!!!";
             Time.timeScale = 0;
-            Debug.Log("fim de jogo X venceu");
+            Debug.Log("fim de jogo o venceu");
         }
 
         else if (gridArray[3] == 1 && gridArray[4] == 1 && gridArray[5] == 1)
         {
+            gameOn = false;
+            gridPosition[3].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[4].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[5].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+
             victoryCanvas.SetActive(true);
             victoryText.text = "Fim de Jogo\n  Jogador 1 é o Vencedor!!!";
             Time.timeScale = 0;
 
-            Debug.Log("fim de jogo X venceu");
+            Debug.Log("fim de jogo o venceu");
 
         }
         else if (gridArray[6] == 1 && gridArray[7] == 1 && gridArray[8] == 1)
         {
+            gameOn = false;
+            gridPosition[6].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[7].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[8].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+
             victoryCanvas.SetActive(true);
             victoryText.text = "Fim de Jogo\n  Jogador 1 é o Vencedor!!!";
             Time.timeScale = 0;
 
-            Debug.Log("fim de jogo X venceu");
+            Debug.Log("fim de jogo o venceu");
         }
 
-        //coluna X
+        //coluna o
         else if (gridArray[0] == 1 && gridArray[3] == 1 && gridArray[6] == 1)
         {
+            gameOn = false;
+            gridPosition[0].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[3].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[6].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+
             victoryCanvas.SetActive(true);
             victoryText.text = "Fim de Jogo\n  Jogador 1 é o Vencedor!!!";
             Time.timeScale = 0;
 
-            Debug.Log("fim de jogo X venceu");
+            Debug.Log("fim de jogo o venceu");
         }
             
         else if (gridArray[1] == 1 && gridArray[4] == 1 && gridArray[7] == 1) 
         {
+            gameOn = false;
+            gridPosition[1].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[4].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[7].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+
             victoryCanvas.SetActive(true);
             victoryText.text = "Fim de Jogo\n  Jogador 1 é o Vencedor!!!";
             Time.timeScale = 0;
 
-            Debug.Log("fim de jogo X venceu");
+            Debug.Log("fim de jogo o venceu");
         }
         else if (gridArray[2] == 1 && gridArray[5] == 1 && gridArray[8] == 1)
         {
+            gameOn = false;
+            gridPosition[2].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[5].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[8].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+
             victoryCanvas.SetActive(true);
             victoryText.text = "Fim de Jogo\n  Jogador 1 é o Vencedor!!!";
             Time.timeScale = 0;
 
-            Debug.Log("fim de jogo X venceu");
+            Debug.Log("fim de jogo o venceu");
         }
 
-        //diagonal x
+        //diagonal o
 
-        else if (gridArray[0] == 1 && gridArray[5] == 1 && gridArray[8] == 1) 
+        else if (gridArray[0] == 1 && gridArray[4] == 1 && gridArray[8] == 1) 
         {
+            gameOn = false;
+            gridPosition[0].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[4].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[8].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+
             victoryCanvas.SetActive(true);
             victoryText.text = "Fim de Jogo\n  Jogador 1 é o Vencedor!!!";
             Time.timeScale = 0;
 
-            Debug.Log("fim de jogo X venceu");
+            Debug.Log("fim de jogo o venceu");
         }
         else if (gridArray[2] == 1 && gridArray[4] == 1 && gridArray[6] == 1)
         {
+            gameOn = false;
+            gridPosition[2].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[4].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[6].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+
             victoryCanvas.SetActive(true);
             victoryText.text = "Fim de Jogo\n  Jogador 1 é o Vencedor!!!";
             Time.timeScale = 0;
-            Debug.Log("fim de jogo X venceu");
+            Debug.Log("fim de jogo o venceu");
         }
 
 
-        // linha o
+
+
+
+
+        // linha x
         if (gridArray[0] == 2 && gridArray[1] == 2 && gridArray[2] == 2)
         {
+            gameOn = false;
+            gridPosition[0].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[1].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[2].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+
             victoryCanvas.SetActive(true);
             victoryText.text = "Fim de Jogo\n  Jogador 2 é o Vencedor!!!";
             Time.timeScale = 0;
 
-            Debug.Log("fim de jogo O venceu");
+            Debug.Log("fim de jogo x venceu");
         }
 
         else if (gridArray[3] == 2 && gridArray[4] == 2 && gridArray[5] == 2)
         {
+            gameOn = false;
+            gridPosition[3].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[4].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[5].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+
             victoryCanvas.SetActive(true);
             victoryText.text = "Fim de Jogo\n  Jogador 2 é o Vencedor!!!";
             Time.timeScale = 0;
 
-            Debug.Log("fim de jogo O venceu");
+            Debug.Log("fim de jogo x venceu");
 
         }
         else if (gridArray[6] == 2 && gridArray[7] == 2 && gridArray[8] == 2)
         {
+            gameOn = false;
+            gridPosition[6].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[7].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[8].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+
             victoryCanvas.SetActive(true);
             victoryText.text = "Fim de Jogo\n  Jogador 2 é o Vencedor!!!";
             Time.timeScale = 0;
 
-            Debug.Log("fim de jogo O venceu");
+            Debug.Log("fim de jogo x venceu");
         }
 
-        //coluna O
+        //coluna x
         else if (gridArray[0] == 2 && gridArray[3] == 2 && gridArray[6] == 2)
         {
+            gameOn = false;
+            gridPosition[0].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[3].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[6].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+
             victoryCanvas.SetActive(true);
             victoryText.text = "Fim de Jogo\n  Jogador 2 é o Vencedor!!!";
             Time.timeScale = 0;
 
-            Debug.Log("fim de jogo O venceu");
+            Debug.Log("fim de jogo x venceu");
         }
 
         else if (gridArray[1] == 2 && gridArray[4] == 2 && gridArray[7] == 2)
         {
+            gameOn = false;
+            gridPosition[1].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[4].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[7].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+
             victoryCanvas.SetActive(true);
             victoryText.text = "Fim de Jogo\n  Jogador 2 é o Vencedor!!!";
             Time.timeScale = 0;
 
-            Debug.Log("fim de jogo O venceu");
+            Debug.Log("fim de jogo x venceu");
         }
         else if (gridArray[2] == 2 && gridArray[5] == 2 && gridArray[8] == 2)
         {
+            gameOn = false;
+            gridPosition[2].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[5].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[8].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+
             victoryCanvas.SetActive(true);
             victoryText.text = "Fim de Jogo\n  Jogador 2 é o Vencedor!!!";
             Time.timeScale = 0;
 
-            Debug.Log("fim de jogo O venceu");
+            Debug.Log("fim de jogo x venceu");
         }
 
-        //diagonal O
+        //diagonal x
 
-        else if (gridArray[0] == 2 && gridArray[5] == 2 && gridArray[8] == 2)
+        else if (gridArray[0] == 2 && gridArray[4] == 2 && gridArray[8] == 2)
         {
+            gameOn = false;
+            gridPosition[0].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[4].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[8].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+
             victoryCanvas.SetActive(true);
             victoryText.text = "Fim de Jogo\n  Jogador 2 é o Vencedor!!!";
             Time.timeScale = 0;
 
-            Debug.Log("fim de jogo O venceu");
+            Debug.Log("fim de jogo x venceu");
         }
         else if (gridArray[2] == 2 && gridArray[4] == 2 && gridArray[6] == 2)
         {
+            gameOn = false;
+            gridPosition[2].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[4].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+            gridPosition[6].GetComponent<Renderer>().material.color = new Color(200, 0, 0, 1);
+
             victoryCanvas.SetActive(true);
             victoryText.text = "Fim de Jogo\n  Jogador 2 é o Vencedor!!!";
             Time.timeScale = 0;
 
-            Debug.Log("fim de jogo O venceu");
+            Debug.Log("fim de jogo x venceu");
         }
 
-    }    
+    }  
+    
+    public void RestartGame() 
+    {
+
+    }
 
     void Result() 
     {
